@@ -1,4 +1,4 @@
-#include "mytcpserver.h"
+#include "mytcpserver-ex.h"
 #include <QDebug>
 #include <QCoreApplication>
 
@@ -24,22 +24,23 @@ MyTcpServer::MyTcpServer(QObject *parent) : QObject(parent){
 void MyTcpServer::slotNewConnection(){
     if(server_status==1){
         mTcpSocket = mTcpServer->nextPendingConnection();
-        mTcpSocket->write("Hello, World!!! I am echo server!\r\n");
-        connect(mTcpSocket, &QTcpSocket::readyRead,
-                this,&MyTcpServer::slotServerRead);
-        connect(mTcpSocket,&QTcpSocket::disconnected,
-                this,&MyTcpServer::slotClientDisconnected);
+        Client* client = new Client(mTcpSocket);
+        clnts.insert(client->Socket->socketDescriptor(),client);
+        connect(client,&Client::Close, this, &MyTcpServer::slotClientDisconnected);
+        mTcpSocket->write("Grasias");
     }
 }
 
 void MyTcpServer::slotServerRead(){
-    while(mTcpSocket->bytesAvailable()>0)
-    {
-        QByteArray array =mTcpSocket->readAll();
-        mTcpSocket->write(array);
-    }
+    QByteArray array;
+    while (mTcpSocket->bytesAvailable() > 0) {
+            QByteArray array =mTcpSocket->readAll();
+            qDebug() << "[CLIENT]" << array;
+
+        }
 }
 
 void MyTcpServer::slotClientDisconnected(){
     mTcpSocket->close();
+    qDebug() << "dis";
 }
