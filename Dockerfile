@@ -8,10 +8,11 @@ RUN apt-get install qtbase5-dev -y
 RUN apt-get install qt5-qmake
 RUN apt-get install build-essential -y
 
-RUN mkdir <ryvkin>
-COPY *.cpp /<ryvkin>
-COPY *.h /<ryvkin>
-COPY *.pro /<ryvkin>
+RUN mkdir ryvkin_221-3210
+COPY *.cpp /ryvkin_221-3210
+COPY *.h /ryvkin_221-3210
+COPY *.pro /ryvkin_221-3210
+COPY echoServer.pro /ryvkin_221-3210
 
-RUN qmake <qt_project>.pro
+RUN qmake echoServer.pro
 RUN make
