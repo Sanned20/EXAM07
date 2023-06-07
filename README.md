@@ -4,4 +4,4 @@ FOR EXAM 07 06
 
 Команды для docker:
 docker build -t exam-image:latest для сборки образа (выдало ошибку, не понятно как менять)
-docker run -it -p 33333:33333 -name exam exam-image:latest
+docker run -it -p 33333:33333 -name exam exam-image:latest  для запуска контейнера
